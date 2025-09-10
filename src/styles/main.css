@@ -1,0 +1,73 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-bottom: 20px;
+  padding: 1rem;
+  background: #fff;
+  overflow: hidden;
+  background-color: #f6fbfa;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .shopping-list,
+  .shopping-list * {
+    visibility: visible;
+  }
+
+  .shopping-list {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.toaster {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.toaster.show {
+  opacity: 1;
+  pointer-events: auto;
+}
