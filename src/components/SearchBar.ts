@@ -1,4 +1,4 @@
-import { html, component } from 'haunted';
+import { html, component } from "haunted";
 
 interface SearchBarProps {
   query: string;
@@ -46,20 +46,20 @@ function SearchBar({ query, onInput, onSubmit }: SearchBarProps) {
         font-size: 16px;
         border: none;
         border-radius: 8px;
-        background-color: #6c757d;
+        background-color: #1d32bf;
         color: #fff;
         cursor: pointer;
         transition: background-color 0.2s ease;
       }
 
       .search-bar button:hover {
-        background-color: #5a6268;
+        background-color: #11239c;
       }
     </style>
   `;
 }
 
 customElements.define(
-  'search-bar',
+  "search-bar",
   component<HTMLElement & SearchBarProps>(SearchBar)
 );

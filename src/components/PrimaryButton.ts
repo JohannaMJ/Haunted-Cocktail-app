@@ -1,4 +1,4 @@
-import { html, component } from 'haunted';
+import { html, component } from "haunted";
 
 interface PrimaryButtonProps {
   text: string;
@@ -10,8 +10,8 @@ interface PrimaryButtonProps {
 function PrimaryButton({
   text,
   onClick,
-  backgroundColor = '#ff4d4d',
-  hoverColor = '#cc0000',
+  backgroundColor = "#ff4d4d",
+  hoverColor = "#cc0000",
 }: PrimaryButtonProps) {
   return html`
     <button
@@ -21,11 +21,13 @@ function PrimaryButton({
       --hover-color: ${hoverColor};
     "
     >
-      ${text}
+      <span class="button-text"> ${text}</span>
     </button>
 
     <style>
       button {
+        display: flex;
+        align-items: center;
         padding: 6px 10px;
         border: none;
         border-radius: 6px;
@@ -39,11 +41,15 @@ function PrimaryButton({
       button:hover {
         background-color: var(--hover-color);
       }
+
+      .button-text {
+        font-size: 14px;
+      }
     </style>
   `;
 }
 
 customElements.define(
-  'primary-button',
+  "primary-button",
   component<PrimaryButtonProps>(PrimaryButton)
 );

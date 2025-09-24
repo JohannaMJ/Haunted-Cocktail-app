@@ -1,97 +1,67 @@
-import { html, component, useCallback, useMemo } from 'haunted';
-import { Ingredient } from '../app';
-import './IngredientItem';
-import './PrimaryButton';
+import { html, component, useCallback, useRef } from "haunted";
+import { Ingredient } from "../app";
+
+import "./IngredientItem";
+import "./PrimaryButton";
 
 interface ShoppingListProps {
   ingredients: Ingredient[];
-  setIngredients: (updater: (prev: Ingredient[]) => Ingredient[]) => void;
-  clearList: () => void;
   showToast: (message: string) => void;
 }
 
-function ShoppingList({
-  ingredients,
-  setIngredients,
-  clearList,
-  showToast,
-}: ShoppingListProps) {
+function ShoppingList(
+  this: HTMLElement,
+  { ingredients, showToast }: ShoppingListProps
+) {
   const clearItem = useCallback(
     (name: string) => {
-      setIngredients((prev) => prev.filter((item) => item.name !== name));
-      showToast('Item removed!');
+      const event = new CustomEvent("remove-ingredient", {
+        detail: { name },
+        bubbles: true,
+        composed: true,
+      });
+
+      this.dispatchEvent(event); // Dispatch from <shopping-list>
+
+      showToast("Item removed!");
     },
-    [setIngredients]
+    [showToast]
   );
 
-  const printList = () => window.print();
-
   return html`
-    <div class="shopping-list">
-      <h2>What to buy:</h2>
-      <div class="list-wrapper">
-        <ul>
-          ${ingredients.map(
-            (ingredient) => html`
-              <ingredient-item
-                key=${ingredient.name}
-                .ingredient=${ingredient}
-                .onRemove=${clearItem}
-              ></ingredient-item>
-            `
-          )}
-        </ul>
-      </div>
-      ${ingredients.length > 0
-        ? html`
-            <div class="button-container">
-              <primary-button
-                .text=${'Clear list'}
-                @click=${clearList}
-              ></primary-button>
-              <primary-button
-                .text=${'Print list'}
-                .backgroundColor=${'#747373'}
-                .hoverColor=${'#5a6167'}
-                @click=${printList}
-              ></primary-button>
-            </div>
-          `
-        : null}
-    </div>
+    <ul class="scrollable-list">
+      ${ingredients.map(
+        (ingredient) => html`
+          <ingredient-item
+            key=${ingredient.name}
+            .ingredient=${ingredient}
+            .onRemove=${clearItem}
+          ></ingredient-item>
+        `
+      )}
+    </ul>
 
     <style>
-      .shopping-list {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        align-content: space-between;
-        gap: 12px;
-        height: 100%;
-        margin: 0;
-        padding: 0 10px;
+      :host {
+        flex: 1 1 auto; /* take remaining space */
+        display: flex; /* so the child can also stretch if needed */
+        flex-direction: column;
         overflow: hidden;
       }
 
-      h2 {
-        margin-bottom: 0;
-      }
-
-      .list-wrapper {
-        max-height: 300px;
+      .scrollable-list {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        gap: 8px;
         overflow-y: auto;
-        position: relative;
+        height: 100%;
       }
 
-      @media (max-width: 768px) {
-        .list-wrapper {
-          max-height: 150px;
-        }
-      }
-
-      .list-wrapper::after {
-        content: '';
-        display: block;
-        position: sticky;
+      .scrollable-list::after {
+        content: "";
+        position: absolute;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -104,24 +74,18 @@ function ShoppingList({
         );
       }
 
-      ul {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        padding: 0;
-        overflow: auto;
+      .scrollable-list::-webkit-scrollbar {
+        width: 8px;
       }
-
-      .button-container {
-        display: flex;
-        gap: 12px;
-        margin: 12px;
+      .scrollable-list::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
       }
     </style>
   `;
 }
 
 customElements.define(
-  'shopping-list',
-  component<ShoppingListProps>(ShoppingList, { useShadowDOM: false })
+  "shopping-list",
+  component<ShoppingListProps>(ShoppingList)
 );

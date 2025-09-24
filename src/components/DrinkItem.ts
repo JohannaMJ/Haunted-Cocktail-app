@@ -1,6 +1,6 @@
-import { html, component } from 'haunted';
-import { Ingredient } from '../app';
-import './PrimaryButton';
+import { html, component } from "haunted";
+import { Ingredient } from "../app";
+import "./PrimaryButton";
 
 interface DrinkProps {
   name: string;
@@ -29,10 +29,10 @@ function DrinkItem({
         <p>${instructions}</p>
       </div>
       <primary-button
-        .text=${'+'}
+        .text=${"+"}
         @click=${handleClick}
-        .backgroundColor=${'#22aa91'}
-        .hoverColor=${'#358e7e'}
+        .backgroundColor=${"#FFC107"}
+        .hoverColor=${"#f9990b"}
       ></primary-button>
     </li>
 
@@ -44,7 +44,7 @@ function DrinkItem({
         padding: 12px;
         list-style: none;
         border-radius: 8px;
-        background-color: #f9f9f9;
+        background-color: #cddc391f;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         transition: box-shadow 0.1s ease;
       }
@@ -89,6 +89,6 @@ function DrinkItem({
 }
 
 customElements.define(
-  'drink-item',
+  "drink-item",
   component<HTMLElement & DrinkProps>(DrinkItem)
 );

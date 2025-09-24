@@ -1,6 +1,6 @@
-import { html, component } from 'haunted';
-import { Ingredient } from '../app';
-import './PrimaryButton';
+import { html, component } from "haunted";
+import { Ingredient } from "../app";
+import "./PrimaryButton";
 
 interface IngredientItemProps {
   ingredient: Ingredient;
@@ -12,7 +12,7 @@ function IngredientItem({ ingredient, onRemove }: IngredientItemProps) {
     <li class="shopping-item" id="item-${ingredient.name}">
       <span class="ingredient-name">${ingredient.name}</span>
       <primary-button
-        .text=${'Remove'}
+        .text=${"Remove"}
         .onClick=${() => onRemove(ingredient.name)}
       ></primary-button>
     </li>
@@ -26,21 +26,20 @@ function IngredientItem({ ingredient, onRemove }: IngredientItemProps) {
         margin-bottom: 8px;
         border-radius: 8px;
         list-style: none;
-        background-color: #f9f9f9;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+        background-color: #ff98002e;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08);
         transition: transform 0.1s ease, box-shadow 0.1s ease;
       }
 
       .ingredient-name {
         flex: 1;
         font-size: 16px;
-        color: #333;
       }
     </style>
   `;
 }
 
 customElements.define(
-  'ingredient-item',
+  "ingredient-item",
   component<IngredientItemProps>(IngredientItem)
 );
